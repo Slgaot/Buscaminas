@@ -64,6 +64,7 @@ class Tablero {
 
     public boolean revelarCelda(int fila, int columna) {
         if (fila < 0 || fila >= filas || columna < 0 || columna >= columnas || tablero[fila][columna].estaRevelada()) {
+            System.out.println("¡Movimiento inválido! Inténtalo de nuevo.");
             return false;
         }
 
@@ -77,7 +78,14 @@ class Tablero {
     }
 
     public void mostrarTablero() {
+        System.out.print("    ");
+        for (int j = 0; j < columnas; j++) {
+            System.out.print(j + "  ");
+        }
+        System.out.println();
+
         for (int i = 0; i < filas; i++) {
+            System.out.print(i + "  "); // Número de fila al inicio de cada fila
             for (int j = 0; j < columnas; j++) {
                 if (!tablero[i][j].estaRevelada()) {
                     System.out.print("[ ]");
