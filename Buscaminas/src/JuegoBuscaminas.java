@@ -23,7 +23,7 @@ class JuegoBuscaminas {
 
             if (opcion == 1) { // Revelar celda
                 if (tablero.revelarCelda(fila, columna)) {
-                    System.out.println("¡Boom! Pisaste una mina. Fin del juego.");
+                    System.out.println("¡Boom! 💥 Pisaste una mina. Fin del juego.");
                     tablero.mostrarTablero();
                     juegoTerminado = true;
                 }

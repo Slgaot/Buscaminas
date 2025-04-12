@@ -94,18 +94,26 @@ class Tablero {
 
         for (int i = 0; i < filas; i++) {
             System.out.print(i + "  "); // Número de fila al inicio de cada fila
+
             for (int j = 0; j < columnas; j++) {
                 if (tablero[i][j].tieneBandera()) {
-                    System.out.print("[F]");
+                    System.out.print("🚩 ");
                 } else if (!tablero[i][j].estaRevelada()) {
-                    System.out.print("[ ]");
+                    System.out.print("⬜ ");
                 } else if (tablero[i][j].esMina()) {
-                    System.out.print("[*]");
+                    System.out.print("💣 ");
                 } else {
-                    System.out.print("[" + tablero[i][j].getMinasAlrededor() + "]");
+                    int minas = tablero[i][j].getMinasAlrededor();
+                    System.out.print(minas == 0 ? "⬛ " : convertirNumeroAEmoji(minas) + " ");
                 }
             }
             System.out.println();
         }
+    }
+
+    // Método para convertir números a emojis de números
+    private String convertirNumeroAEmoji(int numero) {
+        String[] emojis = {"0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣"};
+        return emojis[numero];
     }
 }
