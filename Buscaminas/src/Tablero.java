@@ -63,18 +63,50 @@ class Tablero {
     }
 
     public boolean revelarCelda(int fila, int columna) {
-        if (fila < 0 || fila >= filas || columna < 0 || columna >= columnas || tablero[fila][columna].estaRevelada() || tablero[fila][columna].tieneBandera()) {
-            System.out.println("¡Movimiento inválido! Inténtalo de nuevo.");
+        if (fila < 0 || fila >= filas || columna < 0 || columna >= columnas || tablero[fila][columna].estaRevelada()) {
             return false;
         }
 
+        // Si la celda tiene una bandera, primero quitar la bandera
+        if (tablero[fila][columna].tieneBandera()) {
+            tablero[fila][columna].colocarBandera(); // Quita la bandera
+            System.out.println("Bandera retirada, intenta nuevamente revelar la celda.");
+            return false;
+        }
+
+        // Revelar la celda
         tablero[fila][columna].revelar();
 
+        // Si la celda contiene una mina, el juego termina
         if (tablero[fila][columna].esMina()) {
-            return true; // Perdió el juego
+            return true;
+        }
+
+        // Si la celda no tiene minas alrededor, se desbloquean automáticamente las celdas adyacentes
+        if (tablero[fila][columna].getMinasAlrededor() == 0) {
+            revelarAdyacentes(fila, columna);
         }
 
         return false;
+    }
+    private void revelarAdyacentes(int fila, int columna) {
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int nuevaFila = fila + i;
+                int nuevaColumna = columna + j;
+
+                if (nuevaFila >= 0 && nuevaFila < filas && nuevaColumna >= 0 && nuevaColumna < columnas) {
+                    if (!tablero[nuevaFila][nuevaColumna].estaRevelada() && !tablero[nuevaFila][nuevaColumna].esMina()) {
+                        tablero[nuevaFila][nuevaColumna].revelar();
+
+                        // Si la celda también tiene 0 minas alrededor, seguir expandiendo
+                        if (tablero[nuevaFila][nuevaColumna].getMinasAlrededor() == 0) {
+                            revelarAdyacentes(nuevaFila, nuevaColumna);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public void colocarBandera(int fila, int columna) {
