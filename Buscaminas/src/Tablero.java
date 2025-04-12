@@ -63,7 +63,7 @@ class Tablero {
     }
 
     public boolean revelarCelda(int fila, int columna) {
-        if (fila < 0 || fila >= filas || columna < 0 || columna >= columnas || tablero[fila][columna].estaRevelada()) {
+        if (fila < 0 || fila >= filas || columna < 0 || columna >= columnas || tablero[fila][columna].estaRevelada() || tablero[fila][columna].tieneBandera()) {
             System.out.println("¡Movimiento inválido! Inténtalo de nuevo.");
             return false;
         }
@@ -77,6 +77,14 @@ class Tablero {
         return false;
     }
 
+    public void colocarBandera(int fila, int columna) {
+        if (fila < 0 || fila >= filas || columna < 0 || columna >= columnas || tablero[fila][columna].estaRevelada()) {
+            System.out.println("¡No puedes poner una bandera aquí!");
+            return;
+        }
+        tablero[fila][columna].colocarBandera();
+    }
+
     public void mostrarTablero() {
         System.out.print("    ");
         for (int j = 0; j < columnas; j++) {
@@ -87,7 +95,9 @@ class Tablero {
         for (int i = 0; i < filas; i++) {
             System.out.print(i + "  "); // Número de fila al inicio de cada fila
             for (int j = 0; j < columnas; j++) {
-                if (!tablero[i][j].estaRevelada()) {
+                if (tablero[i][j].tieneBandera()) {
+                    System.out.print("[F]");
+                } else if (!tablero[i][j].estaRevelada()) {
                     System.out.print("[ ]");
                 } else if (tablero[i][j].esMina()) {
                     System.out.print("[*]");

@@ -1,11 +1,13 @@
 class Celda {
     private boolean esMina;
     private boolean revelada;
+    private boolean bandera;
     private int minasAlrededor;
 
     public Celda() {
         this.esMina = false;
         this.revelada = false;
+        this.bandera = false;
         this.minasAlrededor = 0;
     }
 
@@ -23,6 +25,14 @@ class Celda {
 
     public void revelar() {
         revelada = true;
+    }
+
+    public boolean tieneBandera() {
+        return bandera;
+    }
+
+    public void colocarBandera() {
+        this.bandera = !bandera; // Alterna entre colocar y quitar bandera
     }
 
     public int getMinasAlrededor() {
